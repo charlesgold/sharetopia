@@ -1,0 +1,17 @@
+@charset "utf-8";
+/*
+-------------------------------------------------------------
+Description: CSS for sharetopia widget v1.0(b) 
+Author: charlie topjian (www.charlietopjian.com/sharetopia)
+Copyright 2011 Charlie Topjian(c)
+-------------------------------------------------------------
+*/
+.sharetopia_fb {
+	background:url(images/social-facebook.png);
+	background-repeat:no-repeat;
+	display:inline-block;
+	height:22px;
+	width:22px;
+	cursor:pointer;
+}
+

@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<script type="text/javascript" src="assets/knockout-3.0.0.js"></script>
+</head>
+
+<body>
+
+
+<a href="" data-bind="attr:{ href: nUrl}" st-title="Page Title" st-url="http://www.google.com" st-desc="this is a description" st-img="http://www.google.com/images/logos/ps_logo2.png" class="st-fb">Share</a>
+<a href="" data-bind="attr:{ href: nUrl}" st-title="Page Title2" class="st-fb" st-url="http://www.mediatize.me" st-desc="mediatize desc" st-img="http://www.google.com/images/logos/ps_logo2.png">Share</a>
+
+<script>
+//Knockout Code
+var TopiaModel	=	function(sharer,title,sUrl,desc,img){
+		this.st_title		=	ko.observable(title);
+		this.st_shareUrl	=	ko.observable(sUrl)
+		this.st_desc		=	ko.observable(desc);
+		this.st_img			=	ko.observable(img);
+		this.st_url			=	ko.observable(sharer);		
+		//generate fb url
+		this.nUrl			=	ko.computed(function(){
+				return this.st_url() + encodeURIComponent(this.st_shareUrl());
+		},this);
+		
+};
+
+
+//JS DOM
+
+var ShareTop	=	document.getElementsByClassName('st-fb');
+//console.log(ShareTop.length);
+//Interate through possible controls on page
+for(var i=0;i<ShareTop.length;i++){
+	console.log(ShareTop[i].getAttribute('st-title'));
+	
+	ShareTop[i].setAttribute('class',ShareTop[i].getAttribute('class')+i);
+	var title	=	ShareTop[i].getAttribute('st-title');
+	var url		=	ShareTop[i].getAttribute('st-url');
+	var desc	=	ShareTop[i].getAttribute('st-desc');
+	var img		=	ShareTop[i].getAttribute('st-img');			
+	
+	ko.applyBindings(new TopiaModel('https://www.facebook.com/sharer/sharer.php?u=',title,url,desc,img));	
+}
+
+
+
+
+</script>
+</body>
+</html>

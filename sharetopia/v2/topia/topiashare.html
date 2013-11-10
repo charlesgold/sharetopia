@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+
+
+<!-- FB Open Graph -->
+
+
+</head>
+
+<body>
+
+<script>
+
+var shareProxy	=	function(){
+	var rawParams	=	location.search;
+	rawParams		=	rawParams.substring(1);	//trim '?'
+	
+	function parseParams(paramsStr){
+		
+		//split params 
+		var params	=	paramsStr.split('&');//- param=value (now)
+		var oPair	=	{};
+		for(i=0;i<params.length;i++){
+			//Array with pair/value	
+			var pair		=	params[i].split('=');	//pair[0]-key, pair[1]-value
+			oPair[pair[0]]	=	pair[1];	//create object (json) for future reference?
+			
+			//Call writeOgMeta
+			writeOgMeta(pair);
+		}
+		
+		return oPair;
+	}
+	
+	function writeOgMeta(pair){
+		
+		//Establish Head Tag
+		var h		=	document.getElementsByTagName('head').item(0);
+		
+		//Create FB OG Tags
+		var m		=	document.createElement('meta');
+		var prop	=	document.createAttribute("property");
+			switch(pair[0]){
+				case 't':
+					prop.value	=	'og:title';										
+				break;
+				case 'u':
+					prop.value	=	'og:url';									
+				break;
+				case 'i':
+					prop.value	=	'og:image';		
+				break;
+				case 'd':
+					prop.value	=	'og:description';									
+				break;	
+				default:
+				
+			}
+			
+		m.content	=	pair[1];					
+		m.setAttributeNode(prop);
+		h.appendChild(m);
+//		console.log('writeOgMeta');
+	}
+	
+	function writeStandardOgMeta(){
+		//standard meta model
+		var meta	=	{
+							type: 'website' //May want this to be an option in future v.
+							,site_name: function(){ return location.hostname;}
+							,'fb:admins': ''
+		};		
+		//Iterate through object lit
+		for (var key in meta){
+			//console.log(key+'-'+meta[key]);				
+		}
+		//console.log(meta.site_name());
+	}
+	
+	
+	//Organize params into Object with (u,t,i,d)
+	var myObj	=	parseParams(rawParams);
+	writeOgMeta(1);
+	writeStandardOgMeta();
+	
+};
+
+var sProx	=	 new shareProxy();
+
+</script>
+</body>
+</html>

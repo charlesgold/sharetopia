@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<script type="text/javascript" src="assets/knockout-3.0.0.js"></script>
+</head>
+
+<body>
+
+
+<a href="" data-bind="attr:{ href: nUrl}" st-title="Page Title" st-url="http://www.google.com" st-desc="this is a description" st-img="http://www.google.com/images/logos/ps_logo2.png" class="st-fb">Share</a>
+<a href="" data-bind="attr:{ href: nUrl}" st-title="Page Title2" class="st-fb" st-url="http://www.mediatize.me" st-desc="mediatize desc" st-img="http://www.google.com/images/logos/ps_logo2.png">Share</a>
+
+<script>
+
+
+
+var ShareTopia	=	function(userClass, userTopia){
+	//Define defaults for initialized vars
+	this.className		=		(typeof userClass != 'undefined')?userClass:'st-fb';
+	this.urlApi			=		(typeof userUrlApi != 'undefined')?userUrlApi:'https://www.facebook.com/sharer/sharer.php?u=';
+
+	var hostName		=		'http://'+location.hostname+'/v2/topia/';
+	this.topiaLink		=		(typeof userTopia	!= 'undefined')?userTopia:hostName+'topiashare.html';
+	
+	
+	//Private
+	function makeLinks(className, urlApi,topiaLink){
+		//Are we ready?
+		if(document.getElementsByClassName(this.className)){
+		
+			//set object with class name specified
+			var stCtrl	=	document.getElementsByClassName(className);
+			console.log(stCtrl.length);
+			
+			//iterate through elements and capture data.
+			for(var i=0;i<stCtrl.length;i++){
+				var title	=	stCtrl[i].getAttribute('st-title');
+				var url		=	stCtrl[i].getAttribute('st-url');
+				var desc	=	stCtrl[i].getAttribute('st-desc');
+				var img		=	stCtrl[i].getAttribute('st-img');
+				
+				var topiaParams	=	't='+title+'&u='+url+'&d='+desc+'&i='+img;
+				
+				var topiaTag	=	encodeURIComponent(topiaLink+'?'+topiaParams);
+				var shareLink	=	urlApi+topiaTag;
+				//set href of element in focus
+				stCtrl[i].setAttribute('href',shareLink);						
+			}
+			
+			
+		} else {
+			console.log('ShareTopia DEBUG::Browser does not support DOM, or className specified does not exist');	
+		}
+		
+		return true;
+	}
+
+	
+	//Start "Constructor"
+	makeLinks(this.className,this.urlApi,this.topiaLink);	
+}
+
+
+
+var charlie	=	new ShareTopia();
+//JS DOM
+/*
+var ShareTop	=	document.getElementsByClassName('st-fb');
+//console.log(ShareTop.length);
+//Interate through possible controls on page
+for(var i=0;i<ShareTop.length;i++){
+	console.log(ShareTop[i].getAttribute('st-title'));
+	
+	ShareTop[i].setAttribute('class',ShareTop[i].getAttribute('class')+i);
+	var title	=	ShareTop[i].getAttribute('st-title');
+	var url		=	ShareTop[i].getAttribute('st-url');
+	var desc	=	ShareTop[i].getAttribute('st-desc');
+	var img		=	ShareTop[i].getAttribute('st-img');			
+	
+	ko.applyBindings(new TopiaModel('https://www.facebook.com/sharer/sharer.php?u=',title,url,desc,img));	
+}
+*/
+
+
+
+</script>
+</body>
+</html>
